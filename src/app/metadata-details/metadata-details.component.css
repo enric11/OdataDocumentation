@@ -75,6 +75,7 @@ menu,ol,ul {
 .container-entityes{
 	display: inline-flex;
 	width: 100%;
+    min-height: calc(100vh - 56px);
 }
 
 .nav-tab-info{
@@ -200,6 +201,14 @@ menu,ol,ul {
     /* margin-right: 25%; */
     font-size: 0.45em;
     padding: 1px;
+}
+
+.entityset-expands{
+    margin: 5px 0px 0px 25px;
+}
+
+.entityset-expands-list{
+    margin: 0px 0px 0px 10px;
 }
 
 .entity-name{

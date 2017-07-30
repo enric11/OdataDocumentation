@@ -1,0 +1,25 @@
+.header{
+	width: 100%;
+    padding: 10px 10px 10px 20px;
+    background-color: #004050;
+    color: white;
+    /* border-bottom-style: solid; */
+    /* border-bottom-color: darkcyan; */
+}
+
+.header a{
+    background-color: #828282;
+    border: none;
+    color: white;
+    padding: 4px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.header-entity{
+	font-weight: bold;
+	margin: 15px;
+}
+

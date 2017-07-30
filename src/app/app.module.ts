@@ -37,7 +37,7 @@ import { EntityComponent } from './entity/entity.component';
           component: MetadataDetailsComponent
        },
        {
-          path: 'get/:entitySet',
+          path: 'get/:entitySet/:entity',
           component: GetOperationComponent
        },
        {

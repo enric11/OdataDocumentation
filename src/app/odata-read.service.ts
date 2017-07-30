@@ -15,6 +15,7 @@ export class OdataReadService {
 	Functions = [];
 	EntitySets = [];
 	Entity = [];
+	ready = 0;
 	odataUrl = "../../../../opu/odata/sap/";
 	url = "assets/data/ERP/allinone.xml";
 
@@ -158,6 +159,9 @@ export class OdataReadService {
 				}
 			}
 
+			this.ProjectName = nameSpace;
+			this.ready = 1;
+
 			console.log("================ Entity ====================");
 			console.log(this.Entity);
 			console.log("================ EntitySet==================");
@@ -167,8 +171,6 @@ export class OdataReadService {
 			console.log("================ Functions ==============");
 			console.log(this.Functions);
 
-			/* console.log(this.getEntity("ZALLINONE_SRV.Notification")); */
-
         }
       );
 
@@ -176,6 +178,16 @@ export class OdataReadService {
 
   getEntity(entityName){
   	return this.Entity[entityName];
+  }
+
+  getEntitySet(entitySetName){
+
+  	for (let entitySet of this.EntitySets) {
+  		if(entitySet['$']['Name'] === entitySetName){
+  			return entitySet;
+  		}	
+	}
+
   }
 
    /************ Show button ************************/

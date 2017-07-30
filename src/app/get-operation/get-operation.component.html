@@ -1,3 +1,27 @@
-<p>
-  get-operation works for {{entitySet}}
-</p>
+<!-- header -->
+<div class="header">
+
+  <a class="" routerLink="">Return Home</a>
+  
+  <span class="header-entity">EntitySet: {{entitySetName}}</span><span> ({{entitySet['$']['sap:label']}})</span> <span class="header-entity">Entity: {{entityName}}</span> <span>({{entity['Name']['sap:label']}})</span>
+
+</div>
+
+<!-- inptu filters -->
+<div>
+	<form class="form-group"
+	  #odataForm = "ngForm"
+	  (ngSubmit) = "onSubmit(odataForm.value)">
+	<!-- <input type="text" name="user" placeholder="User" ngModel>
+	<input type="password" name="pass" placeholder="Password" ngModel> -->
+
+	<div>
+		<input class="input-project-value" type="text" name="a" placeholder="Gateway Project" ngModel>
+		<input class="input-project-value" type="text" name="b" placeholder="Gateway Project" ngModel>
+		<input class="input-project-value" type="text" name="c" placeholder="Gateway Project" ngModel>
+		<input class="input-project-value" type="text" name="d" placeholder="Gateway Project" ngModel>
+	</div>
+		<input class="btn btn-primary btn-sm" type="submit" vale="submit">
+
+	</form>
+</div>

@@ -1,3 +1,5 @@
+ <a routerLink="/get/headerSet/header">go TO entity test</a>
+
 <div class="input-project">
 
 
@@ -87,7 +89,9 @@
 
 				<ng-template [ngIf]="entitySet['expands'] != undefined">
 					<!-- HeaterToPos1n_Ass -->
-					<span>Expands: </span><span *ngFor ="let EntitySetExpands of entitySet['expands']"><a href="#{{EntitySetExpands}}_Ass">{{EntitySetExpands}}</a></span>
+					<div class="entityset-expands">
+						<span>Expands: </span><span class="entityset-expands-list" *ngFor ="let EntitySetExpands of entitySet['expands']"><a href="#{{EntitySetExpands}}_Ass">{{EntitySetExpands}}</a></span>
+					</div>
 				</ng-template>
 
 					<app-entity [entity]="oDataService.getEntity(entitySet['$']['EntityType'])"></app-entity>

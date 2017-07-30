@@ -1,0 +1,5 @@
+https://dfaas2s.elior.net:8001/sap/opu/odata/sap/YMCOD_DAYVALIDATION_SRV/$metadata?sap-documentation=all
+
+https://dfaas2s.elior.net:8001/sap/opu/odata/sap/YMCOD_DAYVALIDATION_SRV/$metadata
+
+https://dfaas2s.elior.net:8001/sap/opu/odata/sap/YMCOD_DAYVALIDATION_SRV/$metadata?sap-languaje=ES

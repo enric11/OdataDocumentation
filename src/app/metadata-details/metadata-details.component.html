@@ -1,0 +1,220 @@
+<div class="input-project">
+
+
+	<form class="form-group"
+	  #odataForm = "ngForm"
+	  (ngSubmit) = "onSubmit(odataForm.value)">
+	<!-- <input type="text" name="user" placeholder="User" ngModel>
+	<input type="password" name="pass" placeholder="Password" ngModel> -->
+
+		<input class="input-project-value" type="text" name="url" placeholder="Gateway Project" ngModel>
+		<input class="btn btn-primary btn-sm" type="submit" vale="submit">
+
+	</form>
+</div>
+
+<!-- <router-outlet></router-outlet> -->
+
+<div id="container" class="container-entityes">
+
+
+<!-- Nav menu -->
+	<div id="accordian" class="nav-bar">
+		<ul>
+			<li>
+				<div class="nav-bar-type"><span class="icon-dashboard"></span>EntityesSet</div>
+				<ul>
+					<li class="nav-bar-type-item" *ngFor ="let entitySet of oDataService.EntitySets">
+						<a href="#{{entitySet['$']['Name']}}_Set">{{entitySet['$']['Name']}}</a>
+					</li>
+				</ul>
+			</li>
+
+			<li>
+				<div class="nav-bar-type"><span class="icon-dashboard"></span>Associations</div>
+				<ul>
+					<li class="nav-bar-type-item" *ngFor ="let association of oDataService.Associations">
+						<a href="#{{association['Definition']['Name']}}_Ass">{{association["Definition"]['Name']}}</a>
+					</li>
+				</ul>
+			</li>
+
+			<li>
+				<div class="nav-bar-type"><span class="icon-dashboard"></span>EntityesSet</div>
+				<ul>
+					<li class="nav-bar-type-item" *ngFor ="let function of oDataService.Functions">
+						<a href="#{{function['Definition']['Name']}}_Fun">{{function['Definition']['Name']}}</a>
+					</li>
+				</ul>
+			</li>
+
+		</ul>
+	</div>
+
+	<!-- content info -->
+
+
+	<div class="entitySet-container">
+		<ul class="tab-nav-entityset-element">
+		
+		<!-- ................................. EntitySets ................................. -->
+		<div *ngFor ="let entitySet of oDataService.EntitySets">
+
+			<li id="{{entitySet['$']['Name']}}_Set" class="tab-entityset">
+				<div class="entitySet">
+					<div>
+						<div class="entityset-header entityset-header-name"> <a href="#container"><span class="glyphicon glyphicon-chevron-up top-Button"></span></a> {{entitySet["$"]["Name"]}} </div>
+						<div class="entityset-header">
+							<button type="button" class="btn btn-primary" (click)="oDataService.get(entitySet['$']['Name'])">Get</button>
+							<!-- 
+							<button type="button" class="btn btn-info disabled" (click)="oDataService.post(entitySet['$']['Name'])">Create</button>
+							<button type="button" class="btn btn-warning disabled" (click)="oDataService.update(entitySet['$']['Name'])">Update</button>
+							<button type="button" class="btn btn-danger disabled" (click)="oDataService.delete(entitySet['$']['Name'])">Delete</button>
+							-->
+						</div>
+					</div>
+					<div class="entityset-header-description">
+						<!-- EntitySet Description || entitySet['EntityInfo']['Name']['sap:label'] || -->
+						<span *ngIf ="entitySet['$']['sap:label'] !== undefined ; else needInfoBackend">{{entitySet['$']['sap:label']}}</span>
+						
+						<!-- button show details -->
+						<div>	
+							<button id="{{entitySet['$']['Name']}}_butDetail" type="button" class="btn btn-outline-success entity-header-showdetail sub-menu-parent" (click)="oDataService.showDetails(entitySet['$']['Name'])">Show fields</button>
+						</div>
+					</div>
+				</div>
+				<div id="{{entitySet['$']['Name']}}_detail" class="elementHidden">
+
+				<ng-template [ngIf]="entitySet['expands'] != undefined">
+					<!-- HeaterToPos1n_Ass -->
+					<span>Expands: </span><span *ngFor ="let EntitySetExpands of entitySet['expands']"><a href="#{{EntitySetExpands}}_Ass">{{EntitySetExpands}}</a></span>
+				</ng-template>
+
+					<app-entity [entity]="oDataService.getEntity(entitySet['$']['EntityType'])"></app-entity>
+				</div>
+
+			</li>
+		</div>
+
+		<!-- ................................. Associations ................................. -->
+		    <li id="{{associationDet['Definition']['Name']}}_Ass" class="tab-entityset" *ngFor ="let associationDet of oDataService.Associations">
+		    	<div class="entitySet">
+			    	<div>
+			    		<div class="entityset-header entityset-header-name association-header-description descrition-"> <a href="#container"><span class="glyphicon glyphicon-chevron-up top-Button"></span></a> {{associationDet["Definition"]["Name"]}} </div>
+			    		<div class="entityset-header">
+				    		<!-- <button type="button" class="btn btn-primary disabled" (click)="console.log('')">Get</button> -->
+			    		</div>
+			    	</div>
+			    	<div class="entityset-header-description">
+			    		<span *ngIf ="associationDet['Definition']['sap:label'] !== undefined ; else needInfoBackend">{{associationDet['Definition']['sap:label']}}</span>
+			    		<div>
+			    			<span class="association-entityes-cardinality"> {{associationDet['From']['Name']['Name']}} ({{associationDet['From']['Cardinality']}}) > {{associationDet['To']['Name']['Name']}} ({{associationDet['To']['Cardinality']}}) </span>
+			    		</div>
+			    		<!-- button show details -->
+			    		<div>	
+			    			<button id="{{associationDet['Definition']['Name']}}_butDetailAss" type="button" class="btn btn-outline-success entity-header-showdetail sub-menu-parent" (click)="oDataService.showDetailsAss(associationDet['Definition']['Name'])">Show fields</button>
+			       		</div>
+			       	</div>
+			    </div>
+
+			    <!-- Data of all fields per entity -->
+		    	<div id="{{associationDet['Definition']['Name']}}_Ass_detail" class="elementHidden">
+		    	
+		    		<div class="sub-menu-parent tab-nav-entityset-element entity">
+				    	<!-- FROM -->
+				    	<span class="entity-name">From:</span> 
+				    	
+				    	<button id="{{associationDet['Definition']['Name']}}{{associationDet['From']['Name']['Name']}}_butDetailAssEntityFrom" type="button" class="btn btn-outline-success entity-header-showdetail sub-menu-parent" (click)="oDataService.showDetailsAssEntFrom(associationDet['Definition']['Name']+associationDet['From']['Name']['Name'])">Show fields</button> 
+				    	
+				    	<div id="{{associationDet['Definition']['Name']}}{{associationDet['From']['Name']['Name']}}_DetailAssEntityFrom"  class="elementHidden">
+				    	 	<app-entity [entity]="oDataService.getEntity(associationDet['From']['Entity'])"></app-entity>
+						</div>
+						 <!-- TO -->
+						<div class="association-separator-entity"></div>
+						
+						<span class="entity-name">To: </span> 
+				    	
+				    	<button id="{{associationDet['Definition']['Name']}}{{associationDet['To']['Name']['Name']}}_butDetailAssEntityTo" type="button" class="btn btn-outline-success entity-header-showdetail sub-menu-parent" (click)="oDataService.showDetailsAssEntTo(associationDet['Definition']['Name']+associationDet['To']['Name']['Name'])">Show fields</button> 
+				    	
+				    	<div id="{{associationDet['Definition']['Name']}}{{associationDet['To']['Name']['Name']}}_DetailAssEntityTo" class="elementHidden">
+				    		<app-entity [entity]="oDataService.getEntity(associationDet['To']['Entity'])"></app-entity>
+						</div>
+					</div>
+		    	</div>
+
+		    </li>
+
+		    <!-- ................................. Function ................................. -->
+		    <li id="{{functionsDet['Definition']['Name']}}_Fun" class="tab-entityset" *ngFor ="let functionsDet of oDataService.Functions">
+		    	<div class="entitySet">
+			    	<div>
+			    		<div class="entityset-header entityset-header-name function-header-description descrition-"> <a href="#container"><span class="glyphicon glyphicon-chevron-up top-Button"></span></a> {{functionsDet['Definition']['Name']}} </div>
+			    		<div class="entityset-header">
+				    		<!-- <button type="button" class="btn btn-success disabled" (click)="console.log('')">Call</button> -->
+			    		</div>
+			    	</div>
+			    	<div class="entityset-header-description">
+			    		<span>{{functionsDet['Definition']['sap:label']}}</span>
+			    		
+			    		<!-- button show details -->
+			    		<div>	
+			    			<button id="{{functionsDet['Definition']['Name']}}_butDetailFun" type="button" class="btn btn-outline-success entity-header-showdetail sub-menu-parent" (click)="oDataService.showDetailsFun(functionsDet['Definition']['Name'])">Show fields</button>
+			    		</div>
+			    	</div>
+			    </div>
+
+			    	<!-- function parmameteres -->
+			    <div id="{{functionsDet['Definition']['Name']}}_Fun_detail" class="elementHidden">
+		    		<div class="sub-menu-parent tab-nav-entityset-element entity">
+
+				      <span class="entity-name">Input parameteres</span>
+
+				      <ng-template [ngIf]="functionsDet['Parameter'] != undefined">
+				      	<table class="table table-striped entity-elements-tab">
+						    <thead>
+						      <tr>
+						        <th>Field name</th>
+						        <th>Description</th>
+						        <th>Type</th>
+						        <th>Mode</th>
+						        <th>Max Lenght</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+						      <tr *ngFor ="let functionIn of functionsDet['Parameter']">
+						        <td><ng-template [ngIf]="functionIn['$']['Name'] === true"><span class="glyphicon glyphicon-hand-right entity-key"></span></ng-template>{{functionIn["$"]["Name"]}}</td>
+						        <td><span *ngIf ="functionIn['$']['sap:label'] !== undefined ; else needInfoBackend">{{functionIn["$"]["sap:label"]}}</span></td>
+						        <td>{{functionIn["$"]["Type"] | slice:4}}</td>
+						        <td>{{functionIn["$"]["Mode"]}}</td>
+						        <td>
+						        	<ng-template [ngIf]="functionIn['$']['Precision'] != undefined">{{functionIn['$']['Precision']}}</ng-template>
+									<ng-template [ngIf]="functionIn['$']['Scale'] != undefined">,{{functionIn["$"]["Scale"]}}</ng-template>
+									<ng-template [ngIf]="functionIn['$']['MaxLength'] != undefined">{{functionIn["$"]["MaxLength"]}}</ng-template>
+						        </td>
+						      </tr>
+						    </tbody>
+						  </table>
+						 </ng-template>
+
+						<ng-template [ngIf]="functionsDet['Definition']['ReturnType_collection'] != undefined">
+							<span class="entity-name">Collection output parameteres (table)</span>
+						</ng-template>
+						<ng-template [ngIf]="functionsDet['Definition']['ReturnType_collection'] === undefined">
+							<span class="entity-name">Output parameteres</span>
+						</ng-template>
+						
+						
+						<app-entity [entity]="oDataService.getEntity(functionsDet['Definition']['ReturnType'])"></app-entity>
+		    		
+		    		</div>
+		    	</div> 
+		    </li>
+
+		</ul>
+
+	</div>
+</div>
+
+<!-- ......... -->
+<!-- Templates -->
+<ng-template #needInfoBackend> <span class="warning alert alert-warning"> <span class="glyphicon glyphicon-warning-sign"></span> Not description in backend </span></ng-template>

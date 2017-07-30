@@ -1,0 +1,35 @@
+	<!-- Data of all fields per entity -->
+
+		<!--  <div class="sub-menu-parent tab-nav-entityset-element entity"> -->
+			<div class="entity-name">Entity: {{entity['Name']['Name']}} </div> 
+			<div>
+			  	<table class="table table-striped entity-elements-tab">
+					<thead>
+						<tr>
+						    <th>Field name</th>
+						    <th>Description</th>
+						    <th>Type</th>
+						    <th>Max Lenght</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor ="let entitySet of entity['Property']">
+						    <td><ng-template [ngIf]="entitySet['$']['Key'] === true"><span class="glyphicon glyphicon-hand-right entity-key"></span></ng-template>{{entitySet["$"]["Name"]}}</td>
+						    <td><span *ngIf ="entitySet['$']['sap:label'] !== undefined ; else needInfoBackend">{{entitySet["$"]["sap:label"]}}</span></td>
+						    <td>{{entitySet["$"]["Type"] | slice:4}}</td>
+						    <td>
+						        <ng-template [ngIf]="entitySet['$']['Precision'] != undefined">{{entitySet['$']['Precision']}}</ng-template>
+								<ng-template [ngIf]="entitySet['$']['Scale'] != undefined">,{{entitySet["$"]["Scale"]}}</ng-template>
+								<ng-template [ngIf]="entitySet['$']['MaxLength'] != undefined">{{entitySet["$"]["MaxLength"]}}</ng-template>
+						    </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		<!-- </div> -->
+
+
+
+
+<!-- Templates -->
+<ng-template #needInfoBackend> <span class="warning alert alert-warning"> <span class="glyphicon glyphicon-warning-sign"></span> Not description in backend </span></ng-template>

@@ -1,0 +1,7 @@
+{
+  "/sap": {
+    "target": "https://dfaas2s.elior.net:8001",
+    "secure": false,
+	"changeOrigin": true
+  }
+}
